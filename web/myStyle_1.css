@@ -1,0 +1,27 @@
+/* 
+    Document   : myStyle
+    Created on : 30/Mai/2013, 18:43:00
+    Author     : Ricardo
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+html{
+	background: url('background.jpg') no-repeat center;
+	background-size:cover;
+	min-height:100%;
+}
+
+body {
+	min-height:100%;
+	text-align: center;
+}
+
+ input {
+ 	width: 100%;
+ }
+
+ #btns {
+ 	margin-top: 25%;
+ }
+
