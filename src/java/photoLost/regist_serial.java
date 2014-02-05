@@ -56,14 +56,14 @@ public class regist_serial extends HttpServlet {
         try {
             //connecção à BD
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/photoLost","root","adminlabredes13");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.228.242:3306/photolost","root","adminlabredes13");
             
             Statement comando = con.createStatement();
             Statement comandoMod = con.createStatement();
             Statement comandoMar = con.createStatement();
             
             //strings para query de todos os objectos
-            String queryMaquinasTotal = "SELECT * FROM photolost.user;";
+            String queryMaquinasTotal = "SELECT * FROM photolost.camara;";
             String queryModelosTotal = "SELECT * FROM photolost.modelo;";
             String queryMarcasTotal = "SELECT * FROM photolost.marca;";
             
@@ -191,7 +191,7 @@ public class regist_serial extends HttpServlet {
             
             //regista a camara nova na base de dados
             if (CamaraNova != null){
-                String regMarca = "INSERT INTO photolost.user (id_modelo, mail, serial, shared_folder) VALUES (" + CamaraNova.getModelo() + ",\'" + CamaraNova.getMail() + "\',\'" + CamaraNova.getSerial() + "\',\'" + CamaraNova.getPasta() + "\');";
+                String regMarca = "INSERT INTO photolost.camara (id_modelo, mail, serial, shared_folder) VALUES (" + CamaraNova.getModelo() + ",\'" + CamaraNova.getMail() + "\',\'" + CamaraNova.getSerial() + "\',\'" + CamaraNova.getPasta() + "\');";
                 
                 //debug
                 System.out.println(regMarca);
