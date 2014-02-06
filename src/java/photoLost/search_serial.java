@@ -40,11 +40,11 @@ public class search_serial extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/photoLost","root","adminlabredes13");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.228.242:3306/photolost","root","adminlabredes13");
 
             String serial = request.getParameter("serial");
             
-            String query = "SELECT * FROM photolost.user WHERE serial=\'" + serial + "\';";
+            String query = "SELECT * FROM photolost.camara WHERE serial=\'" + serial + "\';";
             
             //debug            
             System.out.println(query);
@@ -63,7 +63,7 @@ public class search_serial extends HttpServlet {
             
             
         }catch (Exception e){
-            System.out.println("erro");
+            System.out.println("erro: " + e);
         }finally{
             out.close();
         }
