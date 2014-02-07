@@ -74,7 +74,6 @@ public class regist_serial extends HttpServlet {
             
             //cria as máquinas e mete-as no array
             while (res.next()){
-                System.out.println("Camara criada id=");
                 Camara a = new Camara();
                 //a.marca = res.getInt(marca);
                 a.setModelo(res.getInt(2));
