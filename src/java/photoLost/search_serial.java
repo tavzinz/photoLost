@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,8 +40,13 @@ public class search_serial extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            
+            //leitura das credenciais no ficheiro
+            String user = "photolost";
+            String pass = "adminlabredes13";
+            
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.228.242:3306/photolost","root","adminlabredes13");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.228.242:3306/photolost", user, pass);
 
             String serial = request.getParameter("serial");
             
@@ -56,9 +62,17 @@ public class search_serial extends HttpServlet {
             System.out.println("query success");
             
             if (res.next()){
-                out.print("<h2>Existe máquina</h2>");
+                //out.print("<h2>Existe máquina</h2>");
+                System.out.println("Reencaminha para a pagina de máquina encontrada.");
+                String nextJSP = "/encontrada.jsp";
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+                dispatcher.forward(request,response);
             }else{
-                out.print("<h2>Máquina inexistente</h2>");
+                //out.print("<h2>Máquina inexistente</h2>");
+                System.out.println("Reencaminha para a pagina de máquina não encontrada.");
+                String nextJSP = "/naoEncontrada.jsp";
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+                dispatcher.forward(request,response);
             }
             
             

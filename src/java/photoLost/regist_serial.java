@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,6 +46,7 @@ public class regist_serial extends HttpServlet {
 	String serial = request.getParameter("serial");
 	String mail = request.getParameter("mail");
 	String pasta = request.getParameter("pasta");
+//        String recompensa = request.getParameter("recompensa");
         
         //declaração das arrayLists para ter os objectos
         ArrayList<Camara> camaras = new ArrayList<Camara>();
@@ -54,9 +56,13 @@ public class regist_serial extends HttpServlet {
         Camara CamaraNova = null;
 	
         try {
+            //leitura das credenciais no ficheiro
+            String user = "photolost";
+            String pass = "adminlabredes13";
+            
             //connecção à BD
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.228.242:3306/photolost","root","adminlabredes13");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.228.242:3306/photolost",user,pass);
             
             Statement comando = con.createStatement();
             Statement comandoMod = con.createStatement();
@@ -124,7 +130,7 @@ public class regist_serial extends HttpServlet {
             }
             
             //cria máquina nova
-            if (existe==true){
+            if (existe){
                 out.print("A máquina com o número " + serial + " já existe!");
             }else{
                 CamaraNova = new Camara();
@@ -198,7 +204,12 @@ public class regist_serial extends HttpServlet {
                 
                 comando.execute(regMarca);
                 //feedback sucesso
-                out.print("Nova camara registada com sucesso");
+                //out.print("Nova camara registada com sucesso");
+                //reencaminha para página encontrada.jsp
+                System.out.println("Reencaminha para a pagina de confimação.");
+                String nextJSP = "/registada.jsp";
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+                dispatcher.forward(request,response);
             }
             
         }catch (Exception e){
