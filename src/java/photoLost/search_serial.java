@@ -5,12 +5,16 @@ package photoLost;
  * and open the template in the editor.
  */
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Properties;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,8 +46,15 @@ public class search_serial extends HttpServlet {
         try {
             
             //leitura das credenciais no ficheiro
-            String user = "photolost";
-            String pass = "adminlabredes13";
+            Properties prop = new Properties();
+            InputStream input = null;
+            File file = new File("../../../home/pi/photolost/db");
+
+            input = new FileInputStream(file);
+            prop.load(input);
+            
+            String user = prop.getProperty("dbuser");
+            String pass = prop.getProperty("dbpassword");
             
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://192.168.228.242:3306/photolost", user, pass);
