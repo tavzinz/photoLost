@@ -50,7 +50,7 @@ public class regist_serial extends HttpServlet {
 	String serial = request.getParameter("serial");
 	String mail = request.getParameter("mail");
 	String pasta = request.getParameter("pasta");
-//        String recompensa = request.getParameter("recompensa");
+        String recompensa = request.getParameter("recompensa");
         
         //declaração das arrayLists para ter os objectos
         ArrayList<Camara> camaras = new ArrayList<Camara>();
@@ -75,6 +75,7 @@ public class regist_serial extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://192.168.228.242:3306/photolost",user,pass);
             
+            
             Statement comando = con.createStatement();
             Statement comandoMod = con.createStatement();
             Statement comandoMar = con.createStatement();
@@ -94,15 +95,16 @@ public class regist_serial extends HttpServlet {
                 Camara a = new Camara();
                 //a.marca = res.getInt(marca);
                 a.setModelo(res.getInt(2));
-                a.setMail(res.getString(3));
+                a.setMail(res.getString(4));
                 a.setNome(res.getString(1));
                 a.setPasta(res.getString(5));
-                a.setSerial(res.getString(4));
+                a.setSerial(res.getString(3));
+                a.setRecompensa(res.getInt(6));
                 
                 camaras.add(a);
                 
                 //debug
-                System.out.println("Camara criada id=" + a.getNome());
+                //System.out.println("Camara criada id=" + a.getNome());
             }
             
             //cria as marcas e mete-as num array
@@ -114,7 +116,7 @@ public class regist_serial extends HttpServlet {
                 marcas.add(m);
                 
                 //debug
-                System.out.println("Marca " + m.getNome() + " criada!");
+                //System.out.println("Marca " + m.getNome() + " criada!");
             }
             
             //cria os modelos e mete-os num array
@@ -127,14 +129,14 @@ public class regist_serial extends HttpServlet {
                 modelos.add(m);
                 
                 //debug
-                System.out.println("Modelo " + m.getNome() + " criado!");
+                //System.out.println("Modelo " + m.getNome() + " criado!");
             }
             
             //verifica se a camara já existe
             boolean existe = false;
             
             for (Camara a : camaras){
-                String srl = a.getSerial();
+                String srl = a.getSerial();   
                 if (srl.equals(serial)){
                     existe = true;
                 }
@@ -153,7 +155,7 @@ public class regist_serial extends HttpServlet {
                 for (Marca m: marcas){
                     if (m.getNome().equals(marca)){
                         idMarca = m.getId();
-                        System.out.println("Marca " + m.getNome() + " existente com o id=" + idMarca);
+                        //System.out.println("Marca " + m.getNome() + " existente com o id=" + idMarca);
                     }
                 }
                 
@@ -166,7 +168,7 @@ public class regist_serial extends HttpServlet {
                     residMarca.next();
                     idMarca = residMarca.getInt(1);
                     //debug
-                    System.out.print("Marca " + marca + " criada com o id=" + idMarca + "\n");
+                    //System.out.print("Marca " + marca + " criada com o id=" + idMarca + "\n");
                 }
                 
                 //####### MODELO ########################################
@@ -176,7 +178,7 @@ public class regist_serial extends HttpServlet {
                 for (Modelo mod: modelos){
                     if (mod.getNome().equals(modelo)){
                         idModelo = mod.getId();
-                        System.out.println("Modelo " + mod.getNome() + " existente com o id=" + idModelo);
+                        //System.out.println("Modelo " + mod.getNome() + " existente com o id=" + idModelo);
                     }
                 }
                 
@@ -184,7 +186,7 @@ public class regist_serial extends HttpServlet {
                 if (idModelo == 0){
                     String registaModelo = "INSERT INTO photolost.modelo (nome, id_marca) VALUES (\'" + modelo +"\'," + idMarca + ");";
                     
-                    System.out.println(registaModelo);
+                    //System.out.println(registaModelo);
                     
                     String queryidModelo = "SELECT id FROM photolost.modelo WHERE nome=\'" + modelo + "\';";
                     comando.execute(registaModelo);
@@ -192,7 +194,7 @@ public class regist_serial extends HttpServlet {
                     residModelo.next();
                     idModelo = residModelo.getInt(1);
                     //debug
-                    System.out.print("Modelo " + modelo + " criado com o id=" + idModelo + "\n");
+                    //System.out.print("Modelo " + modelo + " criado com o id=" + idModelo + "\n");
                 }
                 
                 CamaraNova.setModelo(idModelo);
@@ -203,7 +205,9 @@ public class regist_serial extends HttpServlet {
                 camaras.add(CamaraNova);
                 
                 //debug
-                System.out.println("Camara não existia, uma nova foi criada com o id=" + CamaraNova.getModelo());
+                //System.out.println("Camara não existia, uma nova foi criada com o id=" + CamaraNova.getModelo());
+
+                
             }
             
             //regista a camara nova na base de dados
@@ -211,13 +215,13 @@ public class regist_serial extends HttpServlet {
                 String regMarca = "INSERT INTO photolost.camara (id_modelo, mail, serial, shared_folder) VALUES (" + CamaraNova.getModelo() + ",\'" + CamaraNova.getMail() + "\',\'" + CamaraNova.getSerial() + "\',\'" + CamaraNova.getPasta() + "\');";
                 
                 //debug
-                System.out.println(regMarca);
+                //System.out.println(regMarca);
                 
                 comando.execute(regMarca);
                 //feedback sucesso
                 //out.print("Nova camara registada com sucesso");
                 //reencaminha para página encontrada.jsp
-                System.out.println("Reencaminha para a pagina de confimação.");
+                //ystem.out.println("Reencaminha para a pagina de confimação.");
                 String nextJSP = "/registada.jsp";
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
                 dispatcher.forward(request,response);

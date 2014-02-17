@@ -15,6 +15,7 @@ public class Camara {
     private String nome;
     private String mail;
     private String pasta;
+    private Integer recompensa;
 
     public String getSerial() {
         return serial;
@@ -64,4 +65,11 @@ public class Camara {
         this.pasta = pasta;
     }
     
+    public Integer getRecompensa(){
+        return recompensa;
+    }
+    
+    public void setRecompensa(Integer recompensa){
+        this.recompensa = recompensa;
+    }
 }

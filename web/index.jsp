@@ -43,6 +43,7 @@
                     <input type="text" placeholder="Número de série" name="serial" id="serial"></input></br>
                     <input type="text" placeholder="Endereço de e-mail de contacto" name="mail" id="mail"></input></br>
                     <input type="text" placeholder="Pasta dropbox para onde enviar as fotos" name="pasta" id="pasta"></input>
+                    <input type="text" placeholder="Valor da recompensa" name="recompensa" id="recompensa"></input>
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn">Cancelar</a>
