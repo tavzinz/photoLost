@@ -24,8 +24,10 @@
                         <li><a role="" data-toggle="" class="navbar-text brand" href="">Máquina não encontrada</a></li>
                         <li class="navbar-text brand">|</li>
                         <li><a role="" data-toggle="" class="navbar-text brand">A máquina que encontraste ainda não foi registada.
-                                <input type="text" class="span4" name="mail" placeholder="Mail" id='mail'>
-                                <button type="submit" class="btn" onclick="return registaMail()"><span class="">Deixar o contacto</span></button>
+                                <form method="POST" action="registaMail">
+                                    <input type="text" class="span4" name="mail" placeholder="Mail" id='mail'>
+                                    <button type="submit" class="btn"><span class="">Deixar o contacto</span></button>
+                                </form>
                             </a>
                         </li>
                     </ul>

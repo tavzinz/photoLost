@@ -53,13 +53,13 @@ public class regist_serial extends HttpServlet {
         String recompensa = request.getParameter("recompensa");
         
         //declaração das arrayLists para ter os objectos
-        ArrayList<Camara> camaras = new ArrayList<Camara>();
-        ArrayList<Marca> marcas = new ArrayList<Marca>();
-        ArrayList<Modelo> modelos = new ArrayList<Modelo>();
+        //ArrayList<Camara> camaras = new ArrayList<Camara>();
+        //ArrayList<Marca> marcas = new ArrayList<Marca>();
+        //ArrayList<Modelo> modelos = new ArrayList<Modelo>();
         
         Camara CamaraNova = null;
 	
-        try {
+        try {/*
             //leitura das credenciais no ficheiro
             Properties prop = new Properties();
             InputStream input = null;
@@ -221,11 +221,11 @@ public class regist_serial extends HttpServlet {
                 //feedback sucesso
                 //out.print("Nova camara registada com sucesso");
                 //reencaminha para página encontrada.jsp
-                //ystem.out.println("Reencaminha para a pagina de confimação.");
+                //System.out.println("Reencaminha para a pagina de confimação.");
                 String nextJSP = "/registada.jsp";
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
                 dispatcher.forward(request,response);
-            }
+            }*/
             
         }catch (Exception e){
             //feedback de erro

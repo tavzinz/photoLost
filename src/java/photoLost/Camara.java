@@ -16,7 +16,7 @@ public class Camara {
     private String mail;
     private String pasta;
     private Integer recompensa;
-
+    
     public String getSerial() {
         return serial;
     }

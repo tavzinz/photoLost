@@ -10,10 +10,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Properties;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -44,51 +40,49 @@ public class search_serial extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            
-            //leitura das credenciais no ficheiro
-            Properties prop = new Properties();
-            InputStream input = null;
-            File file = new File("../../../home/pi/photolost/db");
-
-            input = new FileInputStream(file);
-            prop.load(input);
-            
-            String user = prop.getProperty("dbuser");
-            String pass = prop.getProperty("dbpassword");
-            
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.228.242:3306/photolost", user, pass);
-
             String serial = request.getParameter("serial");
+            Integer resultado = db.query(serial); //força a camara a ser encontrada
+
+            /*valores de retorno
+                se a camara existe: 1
+                se a camara não existe: 2
+                se a camara foi criada: 3
+                se a houve um erro: 4
+                se o array ainda não está criado: 5*/
             
-            String query = "SELECT * FROM photolost.camara WHERE serial=\'" + serial + "\';";
+            //pagina a ser reencaminhada
+            String nextJSP = null;
             
-            //debug            
-            System.out.println(query);
-            
-            Statement comando = con.createStatement();
-            ResultSet res = comando.executeQuery(query);
-            
-            //debug            
-            System.out.println("query success");
-            
-            if (res.next()){
-                //out.print("<h2>Existe máquina</h2>");
-                System.out.println("Reencaminha para a pagina de máquina encontrada.");
-                String nextJSP = "/encontrada.jsp";
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
-                dispatcher.forward(request,response);
-            }else{
-                //out.print("<h2>Máquina inexistente</h2>");
-                System.out.println("Reencaminha para a pagina de máquina não encontrada.");
-                String nextJSP = "/naoEncontrada.jsp";
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
-                dispatcher.forward(request,response);
+            switch(resultado){
+                case 1:
+                    System.out.println("Reencaminha para a pagina de máquina encontrada.");
+                    nextJSP = "/encontrada.jsp";
+                    break;
+                case 2:
+                    System.out.println("Reencaminha para a pagina de máquina não encontrada.");
+                    nextJSP = "/naoEncontrada.jsp";
+                    break;
+                case 3:
+                    System.out.println("Reencaminha para a pagina de máquina criada.");
+                    nextJSP = "/registada.jsp";
+                    break;
+                case 4:
+                    System.out.println("Reencaminha para a pagina de erro.");
+                    nextJSP = "/erro.jsp";
+                    break;
+                case 5:
+                    System.out.println("Máquinas ainda não criadas!! A Criar...");
+                    resultado = db.query(serial);//isto funciona, mas não volta a correr o switch...
+                    break;
+                default:
+                    System.out.println("Erro no case para definição da página para reencaminhamento...");
+                    break;
             }
-            
-            
+            //faz o reencaminhamento para a página definida no switch
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+            dispatcher.forward(request,response);
         }catch (Exception e){
-            System.out.println("erro: " + e);
+            System.out.println("Erro: " + e);
         }finally{
             out.close();
         }

@@ -3,7 +3,7 @@
     <head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta charset="utf-8">
-            <title>PhotoLost - Recupera as suas fotos</title>
+            <title>PhotoLost - Recupera as tuas fotos</title>
             <!-- CSS -->
             <link href="libraries/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
             <link href="myStyle.css" rel="stylesheet" media="screen">
@@ -37,7 +37,7 @@
                     <h3>Registo de câmara</h3>
                 </div>
                 <div class="modal-body">
-                    <p>Preencha os campos, servirão para o contactar no caso da sua máquina ter sido encontrada.</p>
+                    <p>Preenche os campos, servirão para te contactar no caso da tua máquina ter sido encontrada.</p>
                     <input type="text" placeholder="Marca da máquina fotográfica" name="marca" id="marca"></input></br>
                     <input type="text" placeholder="Modelo da máquina fotográfica" name="modelo" id="modelo"></input></br>
                     <input type="text" placeholder="Número de série" name="serial" id="serial"></input></br>
@@ -58,7 +58,7 @@
             <p>Se alguém a encontrou, pode-te enviar as fotos de forma anónima.</p>
             <h2>Encontraste uma máquina fotográfica?</h2>
             <p>Devolve as fotos ao dono, são o mais importante, a máquina, se quiseres, pode ficar para ti.</p>
-            <p>É claro que podias fazer a tua boa acção do dia e devolver também a máquina, de certeza que farias alguém feliz.</p>
+            <p>É claro que podias fazer a tua boa acção e devolver também a máquina, de certeza que farias alguém feliz.</p>
             <p>Se mesmo assim quiseres ficar com a máquina, envia as fotos, não recolhemos nenhum dado teu, é 100% anónimo.</p>
         </div>
     </body>
