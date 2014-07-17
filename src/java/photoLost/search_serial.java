@@ -5,12 +5,9 @@ package photoLost;
  * and open the template in the editor.
  */
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Properties;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,8 +38,35 @@ public class search_serial extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             String serial = request.getParameter("serial");
-            Integer resultado = db.query(serial); //força a camara a ser encontrada
-
+            String mail = request.getParameter("mail");                         //se hover um parametro de mail, então é para fazer insert
+            Integer resultado = null;
+            
+            if(mail==null){
+                //log
+                System.out.println("search_serial: Mail não inserido, logo é para procurar máquina.");
+                resultado = db.query(serial);
+            }else{
+                //log
+                System.out.println("search_serial: Mail inserido, logo é para registar nova máquina.");
+                
+                //cria um array com os parametros recebidos
+                ArrayList<String> a = new ArrayList<String>();
+                String Modelo = request.getParameter("modelo");
+                a.add(Modelo);
+                String Mail = request.getParameter("mail");
+                a.add(Mail);
+                String Nome = request.getParameter("nome");
+                a.add(Nome);
+                String Pasta = request.getParameter("pasta");
+                a.add(Pasta);
+                String Serial = request.getParameter("serial");
+                a.add(Serial);
+                String Recompensa = request.getParameter("recompensa");
+                a.add(Recompensa);
+                
+                db.query(a);
+            }
+            
             /*valores de retorno
                 se a camara existe: 1
                 se a camara não existe: 2
@@ -55,34 +79,34 @@ public class search_serial extends HttpServlet {
             
             switch(resultado){
                 case 1:
-                    System.out.println("Reencaminha para a pagina de máquina encontrada.");
+                    System.out.println("search_serial: Reencaminha para a pagina de máquina encontrada.");
                     nextJSP = "/encontrada.jsp";
                     break;
                 case 2:
-                    System.out.println("Reencaminha para a pagina de máquina não encontrada.");
+                    System.out.println("search_serial: Reencaminha para a pagina de máquina não encontrada.");
                     nextJSP = "/naoEncontrada.jsp";
                     break;
                 case 3:
-                    System.out.println("Reencaminha para a pagina de máquina criada.");
+                    System.out.println("search_serial: Reencaminha para a pagina de máquina criada.");
                     nextJSP = "/registada.jsp";
                     break;
                 case 4:
-                    System.out.println("Reencaminha para a pagina de erro.");
+                    System.out.println("search_serial: Reencaminha para a pagina de erro.");
                     nextJSP = "/erro.jsp";
                     break;
                 case 5:
-                    System.out.println("Máquinas ainda não criadas!! A Criar...");
+                    System.out.println("search_serial: Máquinas ainda não criadas!! A Criar...");
                     resultado = db.query(serial);//isto funciona, mas não volta a correr o switch...
                     break;
                 default:
-                    System.out.println("Erro no case para definição da página para reencaminhamento...");
+                    System.out.println("search_serial: Erro no case para definição da página para reencaminhamento...");
                     break;
             }
             //faz o reencaminhamento para a página definida no switch
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
             dispatcher.forward(request,response);
         }catch (Exception e){
-            System.out.println("Erro: " + e);
+            System.out.println("search_serial: Erro: " + e);
         }finally{
             out.close();
         }

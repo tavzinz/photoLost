@@ -35,11 +35,12 @@ public class db {
             Connection con = DriverManager.getConnection("jdbc:mysql://192.168.228.242:3306/photolost", user, pass);
 
             //log
-            System.out.println("Ligação à base de dados criada.");
+            System.out.println("db: Ligação à base de dados criada.");
 
             return con;
         }catch (Exception e){
-            System.out.println("Erro na ligação à base de dados: " + e);
+            //log
+            System.out.println("db: Erro na ligação à base de dados: " + e);
             return null;
         }
     }
@@ -57,23 +58,23 @@ public class db {
                     
                     for(Camara cam : camaras){
                         if(cam.getSerial().equals(camara)){
-                            //debug
-                            System.out.println("Câmara encontrada...");
+                            //log
+                            System.out.println("db: Câmara " + camara + " registada na base de dados...");
                             return 1;
                         }
                     }
-                    //debug
-                    System.out.println("Câmara NÃO encontrada...");
+                    //log
+                    System.out.println("db: Câmara " + camara + " não registada na base de dados...");
                     return 2;
-                }else if(camara instanceof Camara){                             //se o objecto for uma camara vamos fazer um insert
-                    camaras.add(novaCamara((Camara)camara));
+                }else if(camara instanceof ArrayList){                          //se o objecto for um array vamos fazer um insert
+                    camaras.add(novaCamara((ArrayList)camara));
                     return 3;
                 }else{
-                    System.out.println("Erro: Objecto inválido no argumento do método query.");
+                    System.out.println("db: Erro: Objecto inválido no argumento do método query.");
                     return 4;
                 }
             }catch(Exception e){
-                System.out.println("Erro na query: " + e);
+                System.out.println("db: Erro na query: " + e);
                 return 4;
             }finally{
 
@@ -107,7 +108,7 @@ public class db {
                 camaras.add(a);
                 
                 //debug
-                System.out.println("Camara criada id=" + a.getNome());
+                //System.out.println("Camara criada id=" + a.getNome());
             }
             
             //cria as marcas que estão registadas na base de dados
@@ -115,7 +116,7 @@ public class db {
             res = comando.executeQuery(query);
             
             //debug
-            System.out.println("query ás marcas feita.");
+            //System.out.println("query ás marcas feita.");
             
             while (res.next()){
                 Marca m = new Marca();
@@ -133,7 +134,7 @@ public class db {
             res = comando.executeQuery(query);
             
             //debug
-            System.out.println("query aos modelos feita.");
+            //System.out.println("query aos modelos feita.");
             
             while (res.next()){
                 Modelo m = new Modelo();
@@ -144,23 +145,27 @@ public class db {
                 modelos.add(m);
                 
                 //debug
-                System.out.println("Modelo " + m.getNome() + " criado!");
+                //System.out.println("Modelo " + m.getNome() + " criado!");
             }
             
         }catch (Exception e){
-            System.out.println("Erro na criação dos objectos: " + e);
+            System.out.println("db: Erro na criação dos objectos: " + e);
         }
     }
     
-    public static Camara novaCamara(Camara cam){
+    public static Camara novaCamara(ArrayList<String> cam){
         try{
             //verifica se a marca já existe
             for(Camara camara : camaras){
                 //se a camara não existe
-                if(!camara.getSerial().equals(cam.getSerial())){
-                    System.out.println("Camara não existe, será adicionada.");
+                if(!camara.getSerial().equals(cam.get(2))){
+                    //log
+                    System.out.println("db: Camara " + cam.get(0) + " não existe na base de dados, será adicionada.");
+                    System.out.println("db: Camara " + cam.get(1) + " não existe na base de dados, será adicionada.");
+                    System.out.println("db: Camara " + cam.get(2) + " não existe na base de dados, será adicionada.");
                 }else{
-                    System.out.println("Camara já existente...");
+                    //log
+                    System.out.println("db: Erro: Camara " + camara + " já está registada na base de dados!!");
                 }
             }
             
@@ -169,7 +174,7 @@ public class db {
             //insere a nova camara na base de dados
             return null;
         }catch(Exception e){
-            System.out.println("Erro na criação de uma nova camara: " + e);
+            System.out.println("db: Erro na criação de uma nova camara: " + e);
             return null;
         }
         //insere a camara (em argumento) na base de dados

@@ -31,7 +31,7 @@
             </div>
         </div>
         <div id="modal_lost" class="modal hide fade">
-            <form name="perdida" method="POST" action="regist_serial">
+            <form name="perdida" method="POST" action="search_serial">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h3>Registo de câmara</h3>
