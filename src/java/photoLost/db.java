@@ -51,7 +51,7 @@ public class db {
             inicia();                                                           //se não existe, cria-o e popula-o com os dados
             return 5;
         }else{
-           //valida o objecto camara (que pode ser uma camara ou uma String - correspondente ao serial a pesquisar)
+           //valida o objecto camara (que pode ser array de strings ou uma String - correspondente ao serial a pesquisar)
             try{
                 //se o objecto for uma string é pk vamos fazer uma procura no array de máquinas
                 if(camara instanceof String){
@@ -162,7 +162,8 @@ public class db {
                     //log
                     System.out.println("db: Camara " + cam.get(0) + " não existe na base de dados, será adicionada.");
                     System.out.println("db: Camara " + cam.get(1) + " não existe na base de dados, será adicionada.");
-                    System.out.println("db: Camara " + cam.get(2) + " não existe na base de dados, será adicionada.");
+                    //degub
+                    System.out.println("db: Camara " + cam.get(1).toString() + " não existe na base de dados, será adicionada.");
                 }else{
                     //log
                     System.out.println("db: Erro: Camara " + camara + " já está registada na base de dados!!");
